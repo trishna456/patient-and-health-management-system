@@ -1,0 +1,17 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('../../public/assets/background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+
+.register-form {
+  border: 1px solid gray;
+  padding: 30px;
+}
+

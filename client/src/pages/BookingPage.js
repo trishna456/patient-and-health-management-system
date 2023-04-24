@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Layout from "../components/Layout";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { DatePicker, message, TimePicker } from "antd";
-import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import React, { useState, useEffect } from 'react';
+import Layout from '../components/Layout';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { DatePicker, message, TimePicker } from 'antd';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { showLoading, hideLoading } from '../redux/features/alertSlice';
 
 const BookingPage = () => {
   const { user } = useSelector((state) => state.user);
   const params = useParams();
   const [doctors, setDoctors] = useState([]);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState('');
   const [time, setTime] = useState();
   const [isAvailable, setIsAvailable] = useState(false);
   const dispatch = useDispatch();
@@ -19,11 +19,11 @@ const BookingPage = () => {
   const getUserData = async () => {
     try {
       const res = await axios.post(
-        "/api/v1/doctor/getDoctorById",
+        '/api/v1/doctor/getDoctorById',
         { doctorId: params.doctorId },
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
           },
         }
       );
@@ -39,11 +39,11 @@ const BookingPage = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/booking-availbility",
+        '/api/v1/user/booking-availbility',
         { doctorId: params.doctorId, date, time },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
@@ -65,11 +65,11 @@ const BookingPage = () => {
     try {
       setIsAvailable(true);
       if (!date && !time) {
-        return alert("Date & Time Required");
+        return alert('Date & Time Required');
       }
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/book-appointment",
+        '/api/v1/user/book-appointment',
         {
           doctorId: params.doctorId,
           userId: user._id,
@@ -80,7 +80,7 @@ const BookingPage = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
@@ -98,49 +98,50 @@ const BookingPage = () => {
     getUserData();
     //eslint-disable-next-line
   }, []);
+
   return (
     <Layout>
-      <h3 className="text-center mb-4">Booking Page</h3>
-      <div className="container d-flex flex-column align-items-center">
+      <h3 className='text-center mb-4'>Booking Page</h3>
+      <div className='container d-flex flex-column align-items-center'>
         {doctors && (
-          <div className="card shadow-lg p-4">
-            <h4 className="mb-3">
+          <div className='card shadow-lg p-4'>
+            <h4 className='mb-3'>
               Dr. {doctors.firstName} {doctors.lastName}
             </h4>
-            <p className="mb-3">
+            <p className='mb-3'>
               Fees per Consultation: ${doctors.feesPerCunsaltation}
             </p>
-            <p className="mb-4">
-              Timings: {doctors.timings && doctors.timings[0]} -{" "}
+            <p className='mb-4'>
+              Timings: {doctors.timings && doctors.timings[0]} -{' '}
               {doctors.timings && doctors.timings[1]}
             </p>
-            <div className="d-flex flex-column w-75">
-              <h5 className="mb-3">Select a date and time:</h5>
+            <div className='d-flex flex-column w-75'>
+              <h5 className='mb-3'>Select a date and time:</h5>
               <DatePicker
-                aria-required={"true"}
-                className="mb-3"
-                format="DD-MM-YYYY"
+                aria-required={'true'}
+                className='mb-3'
+                format='DD-MM-YYYY'
                 onChange={(value) => {
-                  setDate(moment(value).format("DD-MM-YYYY"));
+                  setDate(moment(value).format('DD-MM-YYYY'));
                 }}
               />
               <TimePicker
-                aria-required={"true"}
-                format="HH:mm"
-                className="mb-4"
+                aria-required={'true'}
+                format='HH:mm'
+                className='mb-4'
                 onChange={(value) => {
-                  setTime(moment(value).format("HH:mm"));
+                  setTime(moment(value).format('HH:mm'));
                 }}
               />
 
               <button
-                className="btn btn-primary mb-3"
+                className='btn btn-primary mb-3'
                 onClick={handleAvailability}
               >
                 Check Availability
               </button>
 
-              <button className="btn btn-dark" onClick={handleBooking}>
+              <button className='btn btn-dark' onClick={handleBooking}>
                 Book Now
               </button>
             </div>

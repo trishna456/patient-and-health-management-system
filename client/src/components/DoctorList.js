@@ -8,7 +8,7 @@ const DoctorList = ({ doctor }) => {
       <div
         className='card-body p-4'
         style={{ cursor: 'pointer' }}
-        onClick={() => navigate(`/doctor/book-appointment/${doctor._id}`)}
+        onClick={() => navigate(`/doctor/covidQuestionnaire/${doctor._id}`)} //navigate(`/doctor/book-appointment/${doctor._id}`)
       >
         <h5 className='card-title mb-3'>
           Dr. {doctor.firstName} {doctor.lastName}
@@ -30,7 +30,10 @@ const DoctorList = ({ doctor }) => {
         </p>
         <button
           className='btn btn-primary mt-3'
-          onClick={() => navigate(`/doctor/book-appointment/${doctor._id}`)}
+          //onClick={() => navigate(`/doctor/book-appointment/${doctor._id}`)}
+          onClick={() => {
+            navigate(`/doctor/covidQuestionnaire/${doctor._id}`);
+          }}
         >
           Book an Appointment
         </button>

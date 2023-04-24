@@ -18,6 +18,8 @@ import DoctorAppointments from './pages/doctor/DoctorAppointments';
 import Insurance from './pages/Insurance';
 import ApplyInsuranceProvider from './pages/ApplyInsuranceProvider';
 import DoctorState from './context/doctor/DoctorState';
+import CovidQuestionnaire from './pages/covidQuestionnaire';
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -103,6 +105,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path='/doctor/covidQuestionnaire/:doctorId'
+                element={
+                  <ProtectedRoute>
+                    <CovidQuestionnaire />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path='/notification'
                 element={

@@ -1,39 +1,44 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Layout from "./../components/Layout";
-import { Row } from "antd";
-import DoctorList from "../components/DoctorList";
+import React, { useEffect, useContext } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Layout from './../components/Layout';
+import { Row } from 'antd';
+import DoctorList from '../components/DoctorList';
+import DoctorContext from '../context/doctor/DoctorContext';
+import DoctorFilter from './DoctorFilter';
 const HomePage = () => {
-  const [doctors, setDoctors] = useState([]);
-  // login user data
-  const getUserData = async () => {
-    try {
-      const res = await axios.get(
-        "/api/v1/user/getAllDoctors",
+  const doctorContext = useContext(DoctorContext);
 
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      if (res.data.success) {
-        setDoctors(res.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { doctors, filtered, getDoctors, loading } = doctorContext;
 
   useEffect(() => {
-    getUserData();
+    getDoctors();
+    //eslint-disable-next-line
   }, []);
+
   return (
     <Layout>
-      <h1 className="text-center">Home Page</h1>
-      <Row>
-        {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
-      </Row>
+      <h1 className='text-center'>Home Page</h1>
+      <DoctorFilter />
+
+      {doctors !== null && !loading && (
+        <TransitionGroup>
+          {filtered !== null
+            ? filtered.map((doctor) => (
+                <CSSTransition key={doctor._id} timeout={500} classNames='item'>
+                  <Row>
+                    <DoctorList doctor={doctor} />
+                  </Row>
+                </CSSTransition>
+              ))
+            : doctors.map((doctor) => (
+                <CSSTransition key={doctor._id} timeout={500} classNames='item'>
+                  <Row>
+                    <DoctorList doctor={doctor} />
+                  </Row>
+                </CSSTransition>
+              ))}
+        </TransitionGroup>
+      )}
     </Layout>
   );
 };

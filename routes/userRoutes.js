@@ -11,8 +11,11 @@ const {
   bookingAvailabilityController,
   userAppointmentsController,
   applyInsuranceProviderController,
+  forgotPasswordController,
+  resetPasswordController,
 } = require('../controllers/userCtrl');
 const authMiddleware = require('../middlewares/authMiddleware');
+const { isResetTokenValid } = require('../middlewares/user');
 
 //router onject
 const router = express.Router();
@@ -23,6 +26,12 @@ router.post('/login', loginController);
 
 //REGISTER || POST
 router.post('/register', registerController);
+
+//Forgot Password
+router.post('/forgot-password', forgotPasswordController);
+
+//Reset Password
+router.post('/reset-password', isResetTokenValid, resetPasswordController);
 
 //Auth || POST
 router.post('/getUserData', authMiddleware, authController);

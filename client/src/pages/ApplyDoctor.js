@@ -13,6 +13,8 @@ const ApplyDoctor = () => {
   const navigate = useNavigate();
   //handle form
   const handleFinish = async (values) => {
+    console.log('final doctor values');
+    console.log(values);
     try {
       dispatch(showLoading());
       const res = await axios.post(
@@ -116,6 +118,21 @@ const ApplyDoctor = () => {
               rules={[{ required: true }]}
             >
               <Input type='text' placeholder='your specialization' />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={24} lg={8}>
+            <Form.Item
+              label='Covid Consultation'
+              name='covidConsultation'
+              required
+              rules={[{ required: true }]}
+            >
+              <select name='covidConsultation' id='covidConsultation'>
+                <option value='Yes Covid Consultation'>
+                  Provides Covid Consultation
+                </option>
+                  <option value='No'>Not Provide Covid Consultation</option> {' '}
+              </select>
             </Form.Item>
           </Col>
           <Col xs={24} md={24} lg={8}>

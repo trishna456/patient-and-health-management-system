@@ -5,6 +5,14 @@ const doctorModel = require('../models/doctorModel');
 const insuranceProviderModel = require('../models/insuranceProviderModel');
 const appointmentModel = require('../models/appointmentModel');
 const moment = require('moment');
+const tokenModel = require('../models/tokenModel');
+const crypto = require('crypto');
+const { createRandomBytes } = require('../utils/helper');
+const {
+  generatePasswordResetTemplate,
+  mailTransport,
+  plainEmailTemplate,
+} = require('../utils/email');
 
 //register callback
 const registerController = async (req, res) => {
@@ -53,6 +61,100 @@ const loginController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
+  }
+};
+
+//Forgot Password
+const forgotPasswordController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log(`Inside forgotPasswordController email: ${email}`);
+    if (!email) {
+      return res
+        .status(200)
+        .send({ message: 'Please Provide a Valid Email', success: false });
+    }
+    const user = await userModel.findOne({ email });
+    console.log(`Inside forgotPasswordController user: ${user}`);
+    if (!user) {
+      return res
+        .status(200)
+        .send({ message: 'User Not Found', success: false });
+    }
+    const token = await tokenModel.findOne({ owner: user._id });
+    console.log(`Inside forgotPasswordController token: ${token}`);
+    if (token) {
+      return res
+        .status(200)
+        .send({
+          message: 'You can only request for another token after 1 hour',
+          success: false,
+        });
+    }
+    const randomBytes = await createRandomBytes();
+    console.log(`Inside forgotPasswordController randomBytes: ${randomBytes}`);
+    const resetToken = new tokenModel({ owner: user._id, token: randomBytes });
+    await resetToken.save();
+    mailTransport().sendMail({
+      from: 'security@gmail.com',
+      to: user.email,
+      subject: 'Password Reset',
+      html: generatePasswordResetTemplate(
+        `http://localhost:3000/reset-password?token=${randomBytes}&id=${user._id}`
+      ),
+    });
+    res.json({
+      success: true,
+      message: 'Password reset link is sent to your email.',
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: `Error in forgotPassword CTRL ${error.message}` });
+  }
+};
+
+//Reset Password
+const resetPasswordController = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const user = await userModel.findById(req.user._id);
+    if (!user) {
+      return res
+        .status(200)
+        .send({ message: 'User Not Found', success: false });
+    }
+    const isSamePassword = await bcrypt.compare(password, user.password);
+    if (isSamePassword) {
+      return res
+        .status(200)
+        .send({
+          message: 'New Password Must be Different From Old Password',
+          success: false,
+        });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = hashedPassword.trim();
+    console.log(user.password);
+    await user.save();
+    await tokenModel.findOneAndDelete({ owner: user._id });
+    mailTransport().sendMail({
+      from: 'security@gmail.com',
+      to: user.email,
+      subject: 'Password Reset Successfully',
+      html: plainEmailTemplate(
+        'Password Reset is Successfull',
+        'Now You Can Login With New Password!'
+      ),
+    });
+    res.json({ success: true, message: 'Password Reset is Successfull' });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: `Error in resetPassword CTRL ${error.message}` });
   }
 };
 
@@ -107,7 +209,7 @@ const applyDoctorController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: 'Error WHile Applying For Doctotr',
+      message: 'Error While Applying For Doctotr',
     });
   }
 };
@@ -315,4 +417,6 @@ module.exports = {
   bookeAppointmnetController,
   bookingAvailabilityController,
   userAppointmentsController,
+  resetPasswordController,
+  forgotPasswordController,
 };

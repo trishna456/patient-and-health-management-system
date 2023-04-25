@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/LayoutStyles.css';
-import { adminMenu, userMenu } from './../Data/data';
+import { adminMenu } from './../Data/data';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,45 @@ const Layout = ({ children }) => {
     message.success('Logout Successfully');
     navigate('/login');
   };
+
+  const userMenu = [
+    {
+      name: 'Home',
+      path: '/',
+      icon: 'fa-solid fa-house',
+    },
+    {
+      name: 'Appointments',
+      path: '/appointments',
+      icon: 'fa-solid fa-list',
+    },
+    {
+      name: 'Apply as Doctor',
+      path: '/apply-doctor',
+      icon: 'fa-solid fa-user-doctor',
+    },
+    {
+      name: 'Apply as Insurance Provider',
+      path: '/apply-insuranceProvider',
+      icon: 'fa-solid fa-user-doctor',
+    },
+
+    // {
+    //   name: 'Profile',
+    //   path: '/profile',
+    //   icon: 'fa-solid fa-user',
+    // },
+    {
+      name: 'Profile',
+      path: `/patient/profile/${user?._id}`,
+      icon: 'fa-solid fa-user',
+    },
+    {
+      name: 'Insurance Package',
+      path: '/insurance',
+      icon: 'fa-solid fa-shield-alt',
+    },
+  ];
 
   // =========== doctor menu ===============
   const doctorMenu = [
@@ -44,17 +83,6 @@ const Layout = ({ children }) => {
       path: '/',
       icon: 'fa-solid fa-house',
     },
-    // {
-    //   name: "Appointments",
-    //   path: "/doctor-appointments",
-    //   icon: "fa-solid fa-list",
-    // },
-
-    // {
-    //   name: "Profile",
-    //   path: `/doctor/profile/${user?._id}`,
-    //   icon: "fa-solid fa-user",
-    // },
   ];
   // =========== insurance provider menu ===============
 

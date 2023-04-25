@@ -1,36 +1,41 @@
-export const userMenu = [
-  {
-    name: 'Home',
-    path: '/',
-    icon: 'fa-solid fa-house',
-  },
-  {
-    name: 'Appointments',
-    path: '/appointments',
-    icon: 'fa-solid fa-list',
-  },
-  {
-    name: 'Apply as Doctor',
-    path: '/apply-doctor',
-    icon: 'fa-solid fa-user-doctor',
-  },
-  {
-    name: 'Apply as Insurance Provider',
-    path: '/apply-insuranceProvider',
-    icon: 'fa-solid fa-user-doctor',
-  },
+// export const userMenu = [
+//   {
+//     name: 'Home',
+//     path: '/',
+//     icon: 'fa-solid fa-house',
+//   },
+//   {
+//     name: 'Appointments',
+//     path: '/appointments',
+//     icon: 'fa-solid fa-list',
+//   },
+//   {
+//     name: 'Apply as Doctor',
+//     path: '/apply-doctor',
+//     icon: 'fa-solid fa-user-doctor',
+//   },
+//   {
+//     name: 'Apply as Insurance Provider',
+//     path: '/apply-insuranceProvider',
+//     icon: 'fa-solid fa-user-doctor',
+//   },
 
-  {
-    name: 'Profile',
-    path: '/profile',
-    icon: 'fa-solid fa-user',
-  },
-  {
-    name: 'Insurance Package',
-    path: '/insurance',
-    icon: 'fa-solid fa-shield-alt',
-  },
-];
+//   // {
+//   //   name: 'Profile',
+//   //   path: '/profile',
+//   //   icon: 'fa-solid fa-user',
+//   // },
+//   {
+//     name: 'Profile',
+//     path: `/patient/profile/${user?._id}`,
+//     icon: 'fa-solid fa-user',
+//   },
+//   {
+//     name: 'Insurance Package',
+//     path: '/insurance',
+//     icon: 'fa-solid fa-shield-alt',
+//   },
+// ];
 
 // admin menu
 export const adminMenu = [

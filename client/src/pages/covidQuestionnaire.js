@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { message } from 'antd';
 
 const CovidQuestionnaire = () => {
   const [hasFever, setHasFever] = useState(false);
@@ -53,6 +54,7 @@ const CovidQuestionnaire = () => {
     };
     //pass data to doctor
     console.log(covidFormData);
+    message.success('woohoo');
     navigate(`/doctor/book-appointment/${params.doctorId}`);
   };
 

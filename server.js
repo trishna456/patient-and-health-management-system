@@ -21,8 +21,7 @@ app.use(moragan('dev'));
 app.use('/api/v1/user', require('./routes/userRoutes'));
 app.use('/api/v1/admin', require('./routes/adminRoutes'));
 app.use('/api/v1/doctor', require('./routes/doctorRoutes'));
-
-/* code added by trishna */
+app.use('/api/v1/patient', require('./routes/patientRoutes'));
 app.use(
   '/api/v1/insuranceProvider',
   require('./routes/insuranceProviderRoutes')

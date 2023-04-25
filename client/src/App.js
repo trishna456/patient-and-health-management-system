@@ -19,6 +19,7 @@ import Insurance from './pages/Insurance';
 import ApplyInsuranceProvider from './pages/ApplyInsuranceProvider';
 import DoctorState from './context/doctor/DoctorState';
 import CovidQuestionnaire from './pages/covidQuestionnaire';
+import PatientProfile from './pages/patient/PatientProfile';
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -78,15 +79,22 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-
               <Route
+                path='/patient/profile/:id'
+                element={
+                  <ProtectedRoute>
+                    <PatientProfile />
+                  </ProtectedRoute>
+                }
+              />
+              {/* <Route
                 path='/profile'
                 element={
                   <ProtectedRoute>
                     <Profile />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
 
               <Route
                 path='/insurance'

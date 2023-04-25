@@ -46,13 +46,13 @@ const loginController = async (req, res) => {
     if (!user) {
       return res
         .status(200)
-        .send({ message: 'user not found', success: false });
+        .send({ message: 'User Not Found', success: false });
     }
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
       return res
         .status(200)
-        .send({ message: 'Invlid EMail or Password', success: false });
+        .send({ message: 'Invalid Email or Password', success: false });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1d',
@@ -84,12 +84,10 @@ const forgotPasswordController = async (req, res) => {
     const token = await tokenModel.findOne({ owner: user._id });
     console.log(`Inside forgotPasswordController token: ${token}`);
     if (token) {
-      return res
-        .status(200)
-        .send({
-          message: 'You can only request for another token after 1 hour',
-          success: false,
-        });
+      return res.status(200).send({
+        message: 'You can only request for another token after 1 hour',
+        success: false,
+      });
     }
     const randomBytes = await createRandomBytes();
     console.log(`Inside forgotPasswordController randomBytes: ${randomBytes}`);
@@ -127,12 +125,10 @@ const resetPasswordController = async (req, res) => {
     }
     const isSamePassword = await bcrypt.compare(password, user.password);
     if (isSamePassword) {
-      return res
-        .status(200)
-        .send({
-          message: 'New Password Must be Different From Old Password',
-          success: false,
-        });
+      return res.status(200).send({
+        message: 'New Password Must be Different From Old Password',
+        success: false,
+      });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -313,7 +309,7 @@ const getAllDocotrsController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: 'Errro WHile Fetching DOcotr',
+      message: 'Errro While Fetching DOcotr',
     });
   }
 };

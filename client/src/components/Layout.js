@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
     {
       name: 'Apply as Insurance Provider',
       path: '/apply-insuranceProvider',
-      icon: 'fa-solid fa-user-doctor',
+      icon: 'fa-solid fa-notes-medical',
     },
 
     // {

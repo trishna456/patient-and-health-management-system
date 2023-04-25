@@ -4,7 +4,7 @@ const userModel = require('../models/userModels');
 
 const getPatientInfoController = async (req, res) => {
   try {
-    const patient = await patientModel.findOne({ userId: req.body.userId });
+    const patient = await userModel.findOne({ userId: req.body.userId });
     res.status(200).send({
       success: true,
       message: 'patient data fetch success',

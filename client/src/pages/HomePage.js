@@ -22,21 +22,29 @@ const HomePage = () => {
 
       {doctors !== null && !loading && (
         <TransitionGroup>
-          {filtered !== null
-            ? filtered.map((doctor) => (
-                <CSSTransition key={doctor._id} timeout={500} classNames='item'>
-                  <Row>
+          <Row>
+            {filtered !== null
+              ? filtered.map((doctor) => (
+                  <CSSTransition
+                    key={doctor._id}
+                    timeout={500}
+                    classNames='item'
+                  >
                     <DoctorList doctor={doctor} />
-                  </Row>
-                </CSSTransition>
-              ))
-            : doctors.map((doctor) => (
-                <CSSTransition key={doctor._id} timeout={500} classNames='item'>
-                  <Row>
-                    <DoctorList doctor={doctor} />
-                  </Row>
-                </CSSTransition>
-              ))}
+                  </CSSTransition>
+                ))
+              : doctors.map((doctor) => (
+                  <CSSTransition
+                    key={doctor._id}
+                    timeout={500}
+                    classNames='item'
+                  >
+                    <Row>
+                      <DoctorList doctor={doctor} />
+                    </Row>
+                  </CSSTransition>
+                ))}
+          </Row>
         </TransitionGroup>
       )}
     </Layout>
